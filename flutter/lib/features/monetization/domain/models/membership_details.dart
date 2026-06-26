@@ -24,9 +24,9 @@ class SubscriptionInfo {
   factory SubscriptionInfo.fromJson(Map<String, dynamic> json) {
     return SubscriptionInfo(
       id: json['id'] ?? '',
-      planId: json['planId'] ?? 'premium_monthly_199',
+      planId: json['planId'] ?? 'premium_monthly_99',
       status: json['status'] ?? 'pending',
-      amount: (json['amount'] as num?)?.toDouble() ?? 199.0,
+      amount: (json['amount'] as num?)?.toDouble() ?? 99.0,
       currentPeriodStart: DateTime.parse(json['currentPeriodStart'] ?? DateTime.now().toIso8601String()),
       currentPeriodEnd: DateTime.parse(json['currentPeriodEnd'] ?? DateTime.now().add(const Duration(days: 30)).toIso8601String()),
       cancelAtPeriodEnd: json['cancelAtPeriodEnd'] ?? false,
@@ -160,4 +160,24 @@ class MembershipProfile {
     'aiSearchDailyUsage': aiSearchDailyUsage,
     'isAdPreferred': isAdPreferred,
   };
+
+  MembershipProfile copyWith({
+    String? userId,
+    MembershipTier? tier,
+    TrialInfo? trial,
+    SubscriptionInfo? activeSubscription,
+    List<InvoiceInfo>? invoices,
+    int? aiSearchDailyUsage,
+    bool? isAdPreferred,
+  }) {
+    return MembershipProfile(
+      userId: userId ?? this.userId,
+      tier: tier ?? this.tier,
+      trial: trial ?? this.trial,
+      activeSubscription: activeSubscription ?? this.activeSubscription,
+      invoices: invoices ?? this.invoices,
+      aiSearchDailyUsage: aiSearchDailyUsage ?? this.aiSearchDailyUsage,
+      isAdPreferred: isAdPreferred ?? this.isAdPreferred,
+    );
+  }
 }

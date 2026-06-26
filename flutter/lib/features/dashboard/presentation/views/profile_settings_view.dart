@@ -117,8 +117,6 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
                   ),
                   items: const [
                     DropdownMenuItem(value: 'en', child: Text('English')),
-                    DropdownMenuItem(value: 'hi', child: Text('Hindi (हिंदी)')),
-                    DropdownMenuItem(value: 'hinglish', child: Text('Hinglish (Hinglish)')),
                   ],
                   onChanged: (val) {
                     if (val != null) {

@@ -113,8 +113,8 @@ class MonetizationRepositoryImpl implements MonetizationRepository {
     // Simulated remote recovery for previously subscribed accounts
     final now = DateTime.now();
     final restoredInvoice = InvoiceInfo(
-      transactionId: 'pay_restored_199',
-      amount: 199.0,
+      transactionId: 'pay_restored_99',
+      amount: 99.0,
       status: 'success',
       date: now.subtract(const Duration(days: 5)),
       paymentMethod: 'razorpay',
@@ -126,9 +126,9 @@ class MonetizationRepositoryImpl implements MonetizationRepository {
       trial: current.trial,
       activeSubscription: SubscriptionInfo(
         id: 'sub_restored_99',
-        planId: 'premium_monthly_199',
+        planId: 'premium_monthly_99',
         status: 'active',
-        amount: 199.0,
+        amount: 99.0,
         currentPeriodStart: now.subtract(const Duration(days: 5)),
         currentPeriodEnd: now.add(const Duration(days: 25)),
         cancelAtPeriodEnd: false,

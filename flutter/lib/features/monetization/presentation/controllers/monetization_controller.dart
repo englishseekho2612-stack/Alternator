@@ -36,7 +36,7 @@ class MonetizationController extends ChangeNotifier {
     }
   }
 
-  /// Upgrade/Buy Monthly Subscription for ₹199 via Razorpay
+  /// Upgrade/Buy Monthly Subscription for ₹99 via Razorpay
   Future<bool> purchasePremium(String userId) async {
     _isLoading = true;
     _errorMessage = null;
@@ -45,8 +45,8 @@ class MonetizationController extends ChangeNotifier {
     try {
       final updated = await _repository.startSubscription(
         userId: userId,
-        planId: 'premium_monthly_199',
-        amount: 199.0,
+        planId: 'premium_monthly_99',
+        amount: 99.0,
       );
       _profile = updated;
       return true;

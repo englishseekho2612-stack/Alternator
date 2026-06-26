@@ -55,7 +55,7 @@ class _SanviChatViewState extends ConsumerState<SanviChatView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Sanvi AI Assistant', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                Text('Active Companion • Hinglish ready', style: TextStyle(fontSize: 11, color: theme.colorScheme.secondary)),
+                Text('Active Companion • English ready', style: TextStyle(fontSize: 11, color: theme.colorScheme.secondary)),
               ],
             )
           ],
@@ -161,7 +161,7 @@ class _SanviChatViewState extends ConsumerState<SanviChatView> {
                 controller: _messageController,
                 style: const TextStyle(fontSize: 14),
                 decoration: const InputDecoration(
-                  hintText: 'Ask in English, Hindi ya Hinglish...',
+                  hintText: 'Ask in English...',
                   border: InputBorder.none,
                 ),
                 onSubmitted: (val) {

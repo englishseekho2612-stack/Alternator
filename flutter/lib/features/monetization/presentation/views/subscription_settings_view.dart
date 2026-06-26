@@ -141,7 +141,7 @@ class SubscriptionSettingsView extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Renews on ${profile.activeSubscription?.currentPeriodEnd.toLocal().toString().split(' ')[0]} for ₹199',
+                            'Renews on ${profile.activeSubscription?.currentPeriodEnd.toLocal().toString().split(' ')[0]} for ₹99',
                             style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                           ),
                         ] else ...[
@@ -195,7 +195,7 @@ class SubscriptionSettingsView extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                '₹199/mo',
+                                '₹99/mo',
                                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.amber.shade800,

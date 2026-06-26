@@ -41,7 +41,7 @@ export default function App() {
   
   // Phase 4 User Profile & Settings State
   const [userDisplayName, setUserDisplayName] = useState('Amrit Kumar');
-  const [userPreferredLang, setUserPreferredLang] = useState<'en' | 'hi' | 'hinglish'>('en');
+  const [userPreferredLang, setUserPreferredLang] = useState<'en'>('en');
   const [isCloudSyncActive, setIsCloudSyncActive] = useState(true);
   const [isSyncingState, setIsSyncingState] = useState(false);
   const [lastSyncedTime, setLastSyncedTime] = useState<string>('3 hours ago');
@@ -103,7 +103,7 @@ export default function App() {
   const [chatMessages, setChatMessages] = useState<Array<{ sender: 'user' | 'sanvi'; content: string; time: string }>>([
     { 
       sender: 'sanvi', 
-      content: 'Namaste! 🙏 Main Sanvi hoon, aapki AI sahayika. Mujhse kisi bhi premium app ke legal, free ya open-source alternatives ke baare mein poochein. Main Hindi, English aur Hinglish mein samajhti hoon!', 
+      content: 'Hello! I am Sanvi, your AI companion. Ask me anything about legal, free, or open-source alternatives to premium apps. I am ready to guide you!', 
       time: '13:41' 
     }
   ]);
@@ -624,7 +624,7 @@ export default function App() {
                   3-Day Trial
                 </button>
                 <button 
-                  onClick={() => { setMembershipTier('premium'); triggerToast("Premium subscription active. ₹199 monthly plan."); }}
+                  onClick={() => { setMembershipTier('premium'); triggerToast("Premium subscription active. ₹99 monthly plan."); }}
                   className={`px-1 py-1.5 rounded-lg text-center font-bold text-[10px] border transition ${membershipTier === 'premium' ? 'bg-amber-500/20 text-amber-400 border-amber-500/40' : 'bg-slate-850 text-slate-400 border-transparent hover:bg-slate-800'}`}
                 >
                   Premium
@@ -895,7 +895,7 @@ export default function App() {
                               <span className="h-1.5 w-1.5 bg-slate-500 rounded-full animate-bounce delay-100"></span>
                               <span className="h-1.5 w-1.5 bg-slate-500 rounded-full animate-bounce delay-200"></span>
                             </span>
-                            <span>Sanvi thinking in Hinglish...</span>
+                            <span>Sanvi thinking...</span>
                           </div>
                         )}
                       </div>
@@ -914,12 +914,6 @@ export default function App() {
                         >
                           VS Code vs VSCodium
                         </button>
-                        <button 
-                          onClick={() => triggerQuickPrompt("Hinglish mein help chahiye")}
-                          className="text-[9px] bg-slate-800 hover:bg-slate-700 text-slate-300 py-1 px-2 rounded-full border border-slate-700/50"
-                        >
-                          Talk in Hinglish
-                        </button>
                       </div>
 
                       {/* Chat input form */}
@@ -928,7 +922,7 @@ export default function App() {
                           type="text"
                           value={chatInput}
                           onChange={(e) => setChatInput(e.target.value)}
-                          placeholder="Type Hindi / English / Hinglish..."
+                          placeholder="Type your message in English..."
                           className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-[11px] text-slate-100 placeholder-slate-400 outline-none focus:border-sky-500"
                         />
                         <button 
@@ -972,7 +966,7 @@ export default function App() {
                             <h5 className="font-bold text-amber-400 text-xs flex items-center gap-1">
                               <Sparkles size={12} /> Apps Buddy Premium Active
                             </h5>
-                            <p className="text-[10px] text-slate-400 mt-1">Renews automatically for ₹199/month on next billing cycle.</p>
+                            <p className="text-[10px] text-slate-400 mt-1">Renews automatically for ₹99/month on next billing cycle.</p>
                           </div>
                         ) : (
                           <div>
@@ -990,7 +984,7 @@ export default function App() {
                               <h6 className="font-bold text-slate-100 text-xs">Apps Buddy Premium</h6>
                               <p className="text-[9px] text-slate-400">Safe, secure Razorpay verification</p>
                             </div>
-                            <span className="text-amber-400 font-bold text-sm">₹199/mo</span>
+                            <span className="text-amber-400 font-bold text-sm">₹99/mo</span>
                           </div>
 
                           <div className="space-y-1 text-[9px] text-slate-300 mt-1">
@@ -1012,7 +1006,7 @@ export default function App() {
                                 setMembershipTier('premium');
                                 setTransactions(prev => [
                                   ...prev,
-                                  { id: `pay_tx_${Math.floor(10000 + Math.random() * 90000)}`, plan: 'Premium Monthly Membership Subscription', amount: '₹199', date: new Date().toLocaleDateString() }
+                                  { id: `pay_tx_${Math.floor(10000 + Math.random() * 90000)}`, plan: 'Premium Monthly Membership Subscription', amount: '₹99', date: new Date().toLocaleDateString() }
                                 ]);
                                 triggerToast("Razorpay billing succeeded! Active Premium membership.");
                               }, 1200);
@@ -1107,7 +1101,7 @@ export default function App() {
 
                           <div className="flex flex-col">
                             <span className="text-[9px] text-slate-400 tracking-wide uppercase font-semibold">
-                              {userPreferredLang === 'hi' ? 'स्वागत है back,' : userPreferredLang === 'hinglish' ? 'Swagat hai back,' : 'Welcome back,'}
+                              Welcome back,
                             </span>
                             <div className="flex items-center gap-1.5">
                               <input 
@@ -1179,7 +1173,7 @@ export default function App() {
                                 setMembershipTier('premium');
                                 setTransactions(prev => [
                                   ...prev,
-                                  { id: `pay_tx_${Math.floor(10000 + Math.random() * 90000)}`, plan: 'Premium Membership Subscription Upgrade', amount: '₹199', date: new Date().toLocaleDateString() }
+                                  { id: `pay_tx_${Math.floor(10000 + Math.random() * 90000)}`, plan: 'Premium Membership Subscription Upgrade', amount: '₹99', date: new Date().toLocaleDateString() }
                                 ]);
                                 triggerToast("Upgraded successfully via Razorpay!");
                               }}
@@ -1191,7 +1185,7 @@ export default function App() {
                         ) : membershipTier === 'premium' ? (
                           <div className="flex items-center gap-1.5 text-amber-400">
                             <Sparkles size={10} />
-                            <p className="text-[8px]">Auto-renews at ₹199/month on next billing cycle.</p>
+                            <p className="text-[8px]">Auto-renews at ₹99/month on next billing cycle.</p>
                           </div>
                         ) : (
                           <div className="flex items-center justify-between gap-3">
@@ -1204,7 +1198,7 @@ export default function App() {
                                 setMembershipTier('premium');
                                 setTransactions(prev => [
                                   ...prev,
-                                  { id: `pay_tx_${Math.floor(10000 + Math.random() * 90000)}`, plan: 'Premium Membership Subscription Upgrade', amount: '₹199', date: new Date().toLocaleDateString() }
+                                  { id: `pay_tx_${Math.floor(10000 + Math.random() * 90000)}`, plan: 'Premium Membership Subscription Upgrade', amount: '₹99', date: new Date().toLocaleDateString() }
                                 ]);
                                 triggerToast("Upgraded successfully via Razorpay!");
                               }}
@@ -1419,23 +1413,8 @@ export default function App() {
                         {/* Multi-Language picker buttons */}
                         <div className="flex flex-col gap-1">
                           <span className="text-[8px] text-slate-400 font-semibold uppercase">Preferred Language</span>
-                          <div className="grid grid-cols-3 gap-1">
-                            {(['en', 'hi', 'hinglish'] as const).map((lang) => (
-                              <button 
-                                key={lang}
-                                onClick={() => {
-                                  setUserPreferredLang(lang);
-                                  triggerToast(`Language switched to: ${lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : 'Hinglish'}`);
-                                }}
-                                className={`py-1 px-1.5 rounded font-semibold text-[8px] border transition ${
-                                  userPreferredLang === lang 
-                                    ? 'bg-sky-500 text-white border-sky-400' 
-                                    : 'bg-slate-800 text-slate-300 border-slate-700/60 hover:bg-slate-750'
-                                }`}
-                              >
-                                {lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi (हिंदी)' : 'Hinglish'}
-                              </button>
-                            ))}
+                          <div className="py-1 px-2 rounded font-semibold text-[8px] border bg-sky-500 text-white border-sky-400 w-fit">
+                            English
                           </div>
                         </div>
 
@@ -1735,7 +1714,6 @@ export default function App() {
                             >
                               <option value="conversational">Conversational (Warm)</option>
                               <option value="professional">Professional (Technical)</option>
-                              <option value="hinglish">Hinglish (Colloquial)</option>
                             </select>
                           </div>
 

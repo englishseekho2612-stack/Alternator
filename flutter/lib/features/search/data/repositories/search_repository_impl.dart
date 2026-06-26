@@ -105,7 +105,7 @@ class SearchRepositoryImpl implements SearchRepository {
       }
     }
 
-    // High-fidelity Simulator responses for typical questions (Hindi/English/Hinglish)
+    // High-fidelity Simulator responses for typical questions (English)
     await Future.delayed(const Duration(milliseconds: 600));
     return _generateSimulatorChatResponse(query);
   }
@@ -144,7 +144,7 @@ class SearchRepositoryImpl implements SearchRepository {
     return '''You are "Sanvi", the permanent AI assistant of Apps Alternator.
     Your absolute prime directive is helping users find and transition to legitimate alternatives, free/trials, or open-source software.
     You must never suggest cracks, license bypasses, torrents, or unverified software distribution nodes.
-    You can answer beautifully in English, Hindi, and Hinglish. 
+    You must answer professionally in English only. 
     Use structured, highly readable Markdown, bullet points, headers, and clean emoji layouts to make text extremely easy to digest.''';
   }
 
@@ -335,59 +335,53 @@ class SearchRepositoryImpl implements SearchRepository {
 
   String _generateSimulatorChatResponse(String query) {
     final lower = query.toLowerCase();
-    if (lower.contains('namaste') || lower.contains('hello') || lower.contains('hi')) {
-      return '''### Namaste! 🙏 Hello! 
+    if (lower.contains('hello') || lower.contains('hi') || lower.contains('namaste') || lower.contains('hey')) {
+      return '''### Hello there! 👋
 
-Main aapki AI Sahayika **Sanvi** hoon, **Apps Alternator** ki permanent assistant. 
+I am **Sanvi**, your AI companion and the official assistant of **Apps Alternator**. 
 
-Aap mujhse kisi bhi application ya uske secure open-source aur legal alternatives ke baare mein pooch sakte hain. Jaise:
-* **"Photoshop ka free alternative kya hai?"**
+You can ask me anything about commercial applications or discover secure, legal, and open-source alternatives. For example:
+* **"What is a free alternative to Photoshop?"**
 * **"Compare Canva vs GIMP"**
-* **"Which is the best code editor?"**
+* **"Which is the best lightweight code editor?"**
 
-Main aapki madad karne ke liye hamesha taiyaar hoon! Kaise help karoon aapki aaj? 😊''';
+I am always ready to help you navigate and optimize your software setups. How can I assist you today? 😊''';
     } else if (lower.contains('photoshop') && (lower.contains('free') || lower.contains('alternative'))) {
-      return '''### Photoshop ke Legal & Free Alternatives 🎨
+      return '''### Legal & Free Alternatives to Adobe Photoshop 🎨
 
-Adobe Photoshop ek premium tool hai, lekin aap in standard legal aur free alternatives ko use kar sakte hain:
+While Adobe Photoshop is the commercial industry standard, you can utilize these powerful, secure, and legal alternatives without license bypasses:
 
 1. **GIMP (GNU Image Manipulation Program)** 🟢
    * **Cost:** 100% Free & Open Source.
    * **Platforms:** Windows, macOS, Linux.
-   * **Best For:** Photo editing, raster graphics manipulation.
-   * **Why choose:** Photoshop ke sabse close features isme milte hain.
+   * **Best For:** Photo retouching, advanced image manipulation.
+   * **Why choose:** Offers highly advanced tooling closest to Photoshop.
 
 2. **Krita** 🎨
    * **Cost:** Free & Open Source.
-   * **Best For:** Digital painting, illustration, concept art.
-   * **Why choose:** Agar aap draw ya paint karna chahte hain, toh yeh Photoshop se behtar choice ho sakti hai.
+   * **Best For:** Digital painting, sketching, and illustration.
+   * **Why choose:** If your primary focus is digital art, Krita is an industry-leading tool.
 
 3. **Photopea** 🌐
    * **Cost:** Free (Ad-supported, directly runs in Web Browser).
-   * **Interface:** Photoshop se 99% identical.
-   * **Why choose:** Bina install kiye browser mein hi quick edit karne ke liye best hai.
+   * **Interface:** 99% identical to Photoshop's layout and hotkeys.
+   * **Why choose:** Perfect for quick, hassle-free edits without installing any software.
 
-Bina licence bypass kiye, in safe aur secure tools ka prayog karein! Let me know agar inme se kisi ka features compare karna ho!''';
-    } else if (lower.contains('hinglish') || lower.contains('hindi')) {
-      return '''### Sanvi Language Support 🗣️
+Let me know if you would like me to compare specific features among these options!''';
+    } else if (lower.contains('hinglish') || lower.contains('hindi') || lower.contains('language')) {
+      return '''### Language Support 🗣️
 
-Main **Hindi, English, aur Hinglish** teenon bhashaon mein expert hoon! 
+Apps Alternator is streamlined to support **English** as the single default language for maximum clarity and consistency across all system, architectural logs, and documentation interfaces.
 
-Aap jis bhasha mein comfortable hain, us bhasha mein sawal pooch sakte hain. Mujhe Hinglish mein baatein karna behad pasand hai! 
-
-**Example:**
-* *"VS Code ke top alternatives batao jo lightweight hon."*
-* *"Is there any legal way to try Adobe Premiere?"*
-
-Bina jhijhak apna prashna likhein!''';
+Feel free to write your queries in English, and I will be happy to assist you in depth!''';
     } else {
-      return '''### Sanvi search support 🚀
+      return '''### Search Assistant Support 🚀
 
-Maine aapke question **"$query"** ko analyze kiya hai.
+I analyzed your query: **"$query"**.
 
-Agar aap kisi specific software ke baare mein search kar rahe hain, toh please search bar ka prayog karein, taaki main **official pricing, download links, pros, cons, aur direct open-source alternatives** ka ek perfect bento cards layout render kar sakoon!
+If you are looking for specific software alternatives, please enter the name directly into the search bar at the top! This allows me to render a beautifully formatted bento grid detailing official pricing, download links, pros, cons, and direct open-source alternatives.
 
-Kuch aur jaanna chahte hain? Main aapke sawal ka jawab dene ke liye prastut hoon. Ask me anything!''';
+How else can I assist you? Let me know!''';
     }
   }
 }

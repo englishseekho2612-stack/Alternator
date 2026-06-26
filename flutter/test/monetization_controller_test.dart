@@ -82,9 +82,9 @@ class MockMonetizationRepository implements MonetizationRepository {
       trial: mockProfile!.trial,
       activeSubscription: SubscriptionInfo(
         id: 'sub_restored_test',
-        planId: 'premium_monthly_199',
+        planId: 'premium_monthly_99',
         status: 'active',
-        amount: 199.0,
+        amount: 99.0,
         currentPeriodStart: DateTime.now().subtract(const Duration(days: 1)),
         currentPeriodEnd: DateTime.now().add(const Duration(days: 29)),
         cancelAtPeriodEnd: false,

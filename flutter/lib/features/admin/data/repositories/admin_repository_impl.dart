@@ -74,11 +74,11 @@ class AdminRepositoryImpl implements AdminRepository {
     ]);
 
     _aiConfig = AIConfig(
-      promptTemplate: 'You are Sanvi, a warm expert companion designed to suggest great open source and local software alternatives. Always highlight Hinglish language if the preferred user setting specifies it.',
+      promptTemplate: 'You are Sanvi, a warm expert companion designed to suggest great open source and local software alternatives.',
       dailyFreeUsageLimit: 3,
       safetyFiltersEnabled: true,
       currentPersonality: 'conversational',
-      supportedLanguages: ['en', 'hi', 'hinglish'],
+      supportedLanguages: ['en'],
     );
   }
 

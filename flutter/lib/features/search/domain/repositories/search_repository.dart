@@ -6,7 +6,7 @@ abstract class SearchRepository {
   /// Queries Sanvi AI to search for application details and legal alternatives
   Future<AppInfo> searchApplication(String query);
 
-  /// Submits general chat questions to Sanvi (supports Hindi, English, Hinglish)
+  /// Submits general chat questions to Sanvi (supports English)
   Future<String> chatWithSanvi(String query, List<Map<String, String>> chatHistory);
 
   /// Retrieves search history (Architectural preparation)
