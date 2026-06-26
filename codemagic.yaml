@@ -1,0 +1,151 @@
+# Codemagic CI/CD Configuration for Apps Alternator (Root Configuration)
+# This file is placed in the root of the repository so that Codemagic automatically detects it.
+# It delegates building to the 'flutter' subdirectory using 'working_directory: flutter'.
+
+workflows:
+  android-workflow:
+    name: Android Production Build
+    working_directory: flutter
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - keystore_credentials # Environment group containing KEYSTORE_PASSWORD, KEY_PASSWORD, KEY_ALIAS, and PLAY_STORE_KEYSTORE_BASE64
+        - api_credentials      # Environment group containing GEMINI_API_KEY and other secure secrets
+      vars:
+        PACKAGE_NAME: "com.appsalternator.app"
+        VERSION_NAME: "1.0.0"
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT/.pub-cache
+        - $HOME/.gradle/caches
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Set up local.properties and key.properties signing credentials
+        script: |
+          echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
+          # Create standard key.properties referencing secrets without hardcoding
+          echo "storePassword=$KEYSTORE_PASSWORD" > android/key.properties
+          echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
+          echo "keyAlias=$KEY_ALIAS" >> android/key.properties
+          echo "storeFile=../appsalternator_keystore.jks" >> android/key.properties
+          # Decode secure base64 binary keystore if configured in environment variables
+          if [ -n "$PLAY_STORE_KEYSTORE_BASE64" ]; then
+            echo $PLAY_STORE_KEYSTORE_BASE64 | base64 --decode > android/appsalternator_keystore.jks
+          fi
+      - name: Get Flutter Packages
+        script: |
+          flutter packages pub get
+      - name: Static Code Analysis (Linter)
+        script: |
+          flutter analyze
+      - name: Run Unit and Widget Tests
+        script: |
+          flutter test
+      - name: Build Android Debug APK
+        script: |
+          flutter build apk --debug --dart-define=GEMINI_API_KEY=$GEMINI_API_KEY
+      - name: Build Android Release APK
+        script: |
+          flutter build apk --release --build-name=$VERSION_NAME --build-number=$BUILD_NUMBER --dart-define=GEMINI_API_KEY=$GEMINI_API_KEY
+      - name: Build Android Release AppBundle (AAB)
+        script: |
+          flutter build appbundle --release --build-name=$VERSION_NAME --build-number=$BUILD_NUMBER --dart-define=GEMINI_API_KEY=$GEMINI_API_KEY
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/bundle/release/*.aab
+    publishing:
+      email:
+        recipients:
+          - englishseekho2612@gmail.com
+        notify:
+          on_success: true
+          on_failure: true
+
+  web-workflow:
+    name: Web Production Build
+    working_directory: flutter
+    max_build_duration: 30
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - api_credentials
+      vars:
+        VERSION_NAME: "1.0.0"
+      flutter: stable
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Get Flutter Packages
+        script: |
+          flutter packages pub get
+      - name: Run Tests
+        script: |
+          flutter test
+      - name: Build Flutter Web Release
+        script: |
+          flutter build web --release --base-href "/" --dart-define=GEMINI_API_KEY=$GEMINI_API_KEY
+    artifacts:
+      - build/web/**
+    publishing:
+      email:
+        recipients:
+          - englishseekho2612@gmail.com
+        notify:
+          on_success: true
+          on_failure: true
+
+  windows-workflow:
+    name: Windows Desktop Build
+    working_directory: flutter
+    max_build_duration: 45
+    instance_type: windows_x86_64
+    environment:
+      groups:
+        - api_credentials
+      vars:
+        VERSION_NAME: "1.0.0"
+      flutter: stable
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Get Flutter Packages
+        script: |
+          flutter packages pub get
+      - name: Enable Windows Desktop Support
+        script: |
+          flutter config --enable-windows-desktop
+      - name: Build Windows Desktop Release
+        script: |
+          flutter build windows --release --dart-define=GEMINI_API_KEY=$GEMINI_API_KEY
+    artifacts:
+      - build/windows/runner/Release/**
+    publishing:
+      email:
+        recipients:
+          - englishseekho2612@gmail.com
+        notify:
+          on_success: true
+          on_failure: true
