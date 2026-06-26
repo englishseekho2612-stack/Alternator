@@ -130,7 +130,7 @@ class _AiManagementViewState extends State<AiManagementView> {
                       dailyFreeUsageLimit: int.tryParse(_usageLimitController.text) ?? 3,
                       safetyFiltersEnabled: _safetyFilters,
                       currentPersonality: _personality,
-                      supportedLanguages: widget.controller.aiConfig?.supportedLanguages ?? ['en', 'hi', 'hinglish'],
+                      supportedLanguages: widget.controller.aiConfig?.supportedLanguages ?? ['en'],
                     );
 
                     final success = await widget.controller.updateAIConfiguration(updatedConfig, widget.adminUser);

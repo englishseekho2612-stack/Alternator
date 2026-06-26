@@ -140,7 +140,7 @@ class _SanviChatViewState extends ConsumerState<SanviChatView> {
     );
   }
 
-  Widget _buildInputBar(ThemeData theme, SearchController controller) {
+  Widget _buildInputBar(ThemeData theme, AppSearchController controller) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(

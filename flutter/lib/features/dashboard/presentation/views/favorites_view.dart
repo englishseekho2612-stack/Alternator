@@ -152,14 +152,14 @@ class _FavoritesViewState extends State<FavoritesView> {
                             child: ListTile(
                               leading: CircleAvatar(
                                 backgroundColor: item.alternativeType == 'open_source'
-                                    ? Colors.emerald.shade100
+                                    ? Colors.teal.shade100
                                     : Colors.blue.shade100,
                                 child: Text(
                                   item.appName[0],
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: item.alternativeType == 'open_source'
-                                        ? Colors.emerald.shade800
+                                        ? Colors.teal.shade800
                                         : Colors.blue.shade800,
                                   ),
                                 ),

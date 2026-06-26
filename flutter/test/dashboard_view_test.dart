@@ -6,7 +6,7 @@ import 'package:apps_alternator/features/dashboard/domain/models/favorite_item.d
 import 'package:apps_alternator/features/dashboard/domain/models/conversation_metadata.dart';
 import 'package:apps_alternator/features/dashboard/presentation/controllers/dashboard_controller.dart';
 import 'package:apps_alternator/features/dashboard/presentation/views/dashboard_view.dart';
-import 'package:apps_alternator/search/domain/models/search_history_item.dart';
+import 'package:apps_alternator/features/search/domain/models/search_history_item.dart';
 
 class MockDashboardRepository implements DashboardRepository {
   UserProfile? mockProfile;

@@ -77,7 +77,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
     );
   }
 
-  Widget _buildSearchInput(ThemeData theme, SearchController controller) {
+  Widget _buildSearchInput(ThemeData theme, AppSearchController controller) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
@@ -182,7 +182,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
     );
   }
 
-  Widget _buildSearchResultArea(ThemeData theme, AppInfo app, SearchController controller, SearchState state) {
+  Widget _buildSearchResultArea(ThemeData theme, AppInfo app, AppSearchController controller, SearchState state) {
     final isFav = state.favorites.any((item) => item.query.toLowerCase() == app.name.toLowerCase());
 
     return ListView(
@@ -401,7 +401,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
     );
   }
 
-  void _showHistoryBottomSheet(BuildContext context, SearchState state, SearchController controller) {
+  void _showHistoryBottomSheet(BuildContext context, SearchState state, AppSearchController controller) {
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
@@ -438,7 +438,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
     );
   }
 
-  void _showFavoritesBottomSheet(BuildContext context, SearchState state, SearchController controller) {
+  void _showFavoritesBottomSheet(BuildContext context, SearchState state, AppSearchController controller) {
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(

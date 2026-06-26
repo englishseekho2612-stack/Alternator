@@ -77,12 +77,7 @@ class _DashboardViewState extends State<DashboardView> {
           }
 
           // Welcome text based on language setting
-          String welcomeText = 'Welcome back,';
-          if (profile.preferredLanguage == 'hi') {
-            welcomeText = 'स्वागत है,';
-          } else if (profile.preferredLanguage == 'hinglish') {
-            welcomeText = 'Swagat hai back,';
-          }
+          const String welcomeText = 'Welcome back,';
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
@@ -417,7 +412,7 @@ class _DashboardViewState extends State<DashboardView> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: Colors.slate.shade800,
+                      color: Colors.blueGrey.shade800,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

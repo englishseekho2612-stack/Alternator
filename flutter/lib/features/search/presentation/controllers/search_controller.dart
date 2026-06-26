@@ -51,10 +51,10 @@ final searchRepositoryProvider = Provider<SearchRepository>((ref) {
 });
 
 /// Riverpod StateNotifier managing the AI search experiences
-class SearchController extends StateNotifier<SearchState> {
+class AppSearchController extends StateNotifier<SearchState> {
   final SearchRepository _repository;
 
-  SearchController(this._repository) : super(SearchState()) {
+  AppSearchController(this._repository) : super(SearchState()) {
     _loadInitialData();
   }
 
@@ -162,8 +162,8 @@ class SearchController extends StateNotifier<SearchState> {
   }
 }
 
-/// Provider of the SearchController for UI consumption
-final searchControllerProvider = StateNotifierProvider<SearchController, SearchState>((ref) {
+/// Provider of the AppSearchController for UI consumption
+final searchControllerProvider = StateNotifierProvider<AppSearchController, SearchState>((ref) {
   final repository = ref.watch(searchRepositoryProvider);
-  return SearchController(repository);
+  return AppSearchController(repository);
 });

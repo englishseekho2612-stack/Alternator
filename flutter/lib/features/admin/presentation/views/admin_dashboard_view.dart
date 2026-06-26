@@ -125,8 +125,8 @@ class _AdminDashboardViewState extends State<AdminDashboardView> {
                       'Active Users',
                       '${stats.activeUsers}',
                       Icons.trending_up,
-                      Colors.emerald.shade100,
-                      Colors.emerald.shade800,
+                      Colors.teal.shade100,
+                      Colors.teal.shade800,
                     ),
                     _buildStatsCard(
                       'Premium Members',
@@ -159,7 +159,7 @@ class _AdminDashboardViewState extends State<AdminDashboardView> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        _buildMetricRow('Total Platform Revenue', '₹${stats.revenue.totalRevenue.toStringAsFixed(2)}', Colors.emerald),
+                        _buildMetricRow('Total Platform Revenue', '₹${stats.revenue.totalRevenue.toStringAsFixed(2)}', Colors.teal),
                         const Divider(),
                         _buildMetricRow('Premium Membership Revenue', '₹${stats.revenue.premiumSubscriptionRevenue.toStringAsFixed(2)}', Colors.blue),
                         const Divider(),

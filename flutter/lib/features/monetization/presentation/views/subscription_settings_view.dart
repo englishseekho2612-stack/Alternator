@@ -110,7 +110,7 @@ class SubscriptionSettingsView extends StatelessWidget {
                               profile.tier.name.toUpperCase(),
                               style: TextStyle(
                                 fontSize: 16,
-                                fontWeight: FontWeight.black,
+                                fontWeight: FontWeight.w900,
                                 color: isPremium ? Colors.amber.shade800 : Colors.blue.shade700,
                               ),
                             ),

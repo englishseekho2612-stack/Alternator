@@ -36,7 +36,7 @@ class AIConfig {
       dailyFreeUsageLimit: json['dailyFreeUsageLimit'] ?? 3,
       safetyFiltersEnabled: json['safetyFiltersEnabled'] ?? true,
       currentPersonality: json['currentPersonality'] ?? 'conversational',
-      supportedLanguages: List<String>.from(json['supportedLanguages'] ?? ['en', 'hi', 'hinglish']),
+      supportedLanguages: List<String>.from(json['supportedLanguages'] ?? ['en']),
     );
   }
 

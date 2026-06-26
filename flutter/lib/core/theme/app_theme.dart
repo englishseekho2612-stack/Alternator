@@ -43,12 +43,12 @@ class AppTheme {
         onSurface: textDark,
         error: Colors.redAccent,
       ),
-      cardTheme: CardTheme(
+      cardTheme: const CardThemeData(
         color: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Color(0xFFE2E8F0), width: 1),
-          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
       ),
       textTheme: const TextTheme(
@@ -85,12 +85,12 @@ class AppTheme {
         onSurface: textLight,
         error: Colors.redAccent,
       ),
-      cardTheme: CardTheme(
+      cardTheme: const CardThemeData(
         color: surfaceDark,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Color(0xFF334155), width: 1),
-          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: Color(0xFF334155), width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
       ),
       textTheme: const TextTheme(
