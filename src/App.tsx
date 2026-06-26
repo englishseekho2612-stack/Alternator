@@ -76,7 +76,7 @@ export default function App() {
     { name: 'DaVinci Resolve', original: 'Adobe Premiere', desc: 'Professional level video production, grading & sound effects.', category: 'Video' }
   ]);
   const [cmsFaqs, setCmsFaqs] = useState([
-    { q: 'Is Apps Alternator fully offline?', a: 'Yes! Local cached lookups operate directly on your device disk storage.' },
+    { q: 'Is Apps Buddy fully offline?', a: 'Yes! Local cached lookups operate directly on your device disk storage.' },
     { q: 'How does Sanvi AI provide suggestions?', a: 'Sanvi matches queries against vetted cloud repositories of highly optimized packages.' }
   ]);
   const [adminLogs, setAdminLogs] = useState([
@@ -567,7 +567,7 @@ export default function App() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-bold text-lg tracking-tight">Apps Alternator</h1>
+              <h1 className="font-bold text-lg tracking-tight">Apps Buddy</h1>
               <span className="text-[10px] uppercase font-bold tracking-widest bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded-full border border-sky-500/20 animate-pulse">
                 Phase 6 Ready
               </span>
@@ -659,7 +659,7 @@ export default function App() {
                       S
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-slate-200">Apps Alternator</h4>
+                      <h4 className="text-xs font-bold text-slate-200">Apps Buddy</h4>
                       <p className="text-[9px] text-slate-400">Sanvi AI Assistant v2.0</p>
                     </div>
                   </div>
@@ -970,7 +970,7 @@ export default function App() {
                         ) : membershipTier === 'premium' ? (
                           <div>
                             <h5 className="font-bold text-amber-400 text-xs flex items-center gap-1">
-                              <Sparkles size={12} /> Apps Alternator Premium Active
+                              <Sparkles size={12} /> Apps Buddy Premium Active
                             </h5>
                             <p className="text-[10px] text-slate-400 mt-1">Renews automatically for ₹199/month on next billing cycle.</p>
                           </div>
@@ -987,7 +987,7 @@ export default function App() {
                         <div className="bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-900 border border-amber-500/30 rounded-xl p-3.5 flex flex-col gap-2 shadow-lg shadow-amber-500/5">
                           <div className="flex justify-between items-start">
                             <div>
-                              <h6 className="font-bold text-slate-100 text-xs">Apps Alternator Premium</h6>
+                              <h6 className="font-bold text-slate-100 text-xs">Apps Buddy Premium</h6>
                               <p className="text-[9px] text-slate-400">Safe, secure Razorpay verification</p>
                             </div>
                             <span className="text-amber-400 font-bold text-sm">₹199/mo</span>
@@ -1508,7 +1508,7 @@ export default function App() {
                           </button>
                           <button 
                             onClick={() => {
-                              triggerToast("Signed out securely from Apps Alternator.");
+                              triggerToast("Signed out securely from Apps Buddy.");
                             }}
                             className="bg-rose-950/20 hover:bg-rose-950/40 border border-rose-900/30 text-rose-400 py-1 rounded text-[8px] font-bold text-center"
                           >

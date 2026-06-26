@@ -127,7 +127,7 @@ app.post("/api/chat", async (req, res) => {
   if (!ai) {
     return res.json({
       success: true,
-      message: "Hello! I am Sanvi, your permanent AI Assistant for Apps Alternator. (Note: GEMINI_API_KEY is not configured in Secrets yet, so I am running in local architectural simulator mode! Set your API key in Settings > Secrets to enable live Gemini guidance.)\n\nI can verify that our Phase 1 foundation is perfectly structured with clean architecture, ready to support all future application workflows."
+      message: "Hello! I am Sanvi, your permanent AI Assistant for Apps Buddy. (Note: GEMINI_API_KEY is not configured in Secrets yet, so I am running in local architectural simulator mode! Set your API key in Settings > Secrets to enable live Gemini guidance.)\n\nI can verify that our Phase 1 foundation is perfectly structured with clean architecture, ready to support all future application workflows."
     });
   }
 
@@ -137,11 +137,11 @@ app.post("/api/chat", async (req, res) => {
     // To facilitate conversation, we extract the last user message and provide the conversation history in the prompt or as contents.
     const lastUserMessage = messages[messages.length - 1]?.content || "";
 
-    const systemInstruction = `You are "Sanvi", the permanent AI companion and assistant built inside "Apps Alternator". 
-Apps Alternator is a premium, minimal, production-ready application to find search and alternating options for software apps across Android, Web, and Windows desktop.
+    const systemInstruction = `You are "Sanvi", the permanent AI companion and assistant built inside "Apps Buddy". 
+Apps Buddy is a premium, minimal, production-ready application to find search and alternating options for software apps across Android, Web, and Windows desktop.
 Currently, the developer has successfully bootstrapped "Phase 1 - Part 1: Master Foundation & Clean Architecture".
 Your tone is professional, highly knowledgeable, friendly, clear, and reassuring.
-You can discuss any aspects of Apps Alternator's clean architecture, including:
+You can discuss any aspects of Apps Buddy's clean architecture, including:
 1. Complete Project Structure & Feature-Based folders
 2. Theme, Core Services (logger, error handling, router, DI prep, environment config)
 3. Windows, Android, and Web build configurations
@@ -181,7 +181,7 @@ async function startServer() {
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[Apps Alternator Hub] Server running on http://localhost:${PORT}`);
+    console.log(`[Apps Buddy Hub] Server running on http://localhost:${PORT}`);
   });
 }
 
