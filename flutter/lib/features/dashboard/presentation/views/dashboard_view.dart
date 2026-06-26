@@ -92,7 +92,7 @@ class _DashboardViewState extends State<DashboardView> {
                 // Error Alert Banner
                 if (widget.controller.errorMessage != null)
                   Container(
-                    margin: const EdgeInsets.bottom(16),
+                    margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: Colors.red.shade50,

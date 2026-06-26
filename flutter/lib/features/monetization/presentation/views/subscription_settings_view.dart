@@ -65,7 +65,7 @@ class SubscriptionSettingsView extends StatelessWidget {
                 // Error Alert Banner
                 if (controller.errorMessage != null)
                   Container(
-                    margin: const EdgeInsets.bottom(16),
+                    margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: Colors.red.shade50,
