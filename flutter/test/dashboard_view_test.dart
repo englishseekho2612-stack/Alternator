@@ -219,6 +219,23 @@ class MockHttpClientResponse extends Stream<List<int>> implements HttpClientResp
   int get contentLength => _transparentImage.length;
 
   @override
+  HttpClientResponseCompressionState get compressionState =>
+      HttpClientResponseCompressionState.notCompressed;
+
+  @override
+  bool get isRedirect => false;
+
+  @override
+  PersistentConnectionState get persistentConnectionState =>
+      PersistentConnectionState.persisted;
+
+  @override
+  List<RedirectInfo> get redirects => [];
+
+  @override
+  HttpHeaders get headers => MockHttpHeaders();
+
+  @override
   dynamic noSuchMethod(Invocation invocation) {
     return null;
   }
