@@ -17,10 +17,12 @@ class MockDashboardRepository implements DashboardRepository {
       displayName: 'Test Amrit',
       email: 'test.amrit@gmail.com',
       profilePictureUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde',
-      membershipTier: 'premium',
-      isCloudSyncActive: true,
       preferredLanguage: 'en',
+      emailNotificationsEnabled: true,
+      pushNotificationsEnabled: true,
       createdAt: DateTime.now(),
+      lastSyncedAt: DateTime.now(),
+      isCloudSyncActive: true,
     );
   }
 
@@ -38,7 +40,12 @@ class MockDashboardRepository implements DashboardRepository {
   @override
   Future<List<FavoriteItem>> getFavorites(String uid) async {
     return [
-      FavoriteItem(appName: 'Krita', originalApp: 'Photoshop', savedAt: DateTime.now()),
+      FavoriteItem(
+        appName: 'Krita',
+        originalApp: 'Photoshop',
+        category: 'Graphics',
+        favoritedAt: DateTime.now(),
+      ),
     ];
   }
 

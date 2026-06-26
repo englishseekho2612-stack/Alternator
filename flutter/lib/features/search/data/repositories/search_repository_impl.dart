@@ -189,7 +189,7 @@ class SearchRepositoryImpl implements SearchRepository {
         officialWebsite: 'https://www.adobe.com/products/photoshop.html',
         supportedPlatforms: ['Windows', 'macOS', 'iPadOS'],
         officialDownloadLink: 'https://www.adobe.com/products/photoshop/free-trial-download.html',
-        pricing: '$22.99 / month subscription',
+        pricing: '\$22.99 / month subscription',
         hasFreeVersion: false,
         hasOfficialTrial: true,
         systemRequirements: 'Intel/AMD multicore 2GHz, 8GB RAM, 4GB GPU space',
@@ -210,7 +210,7 @@ class SearchRepositoryImpl implements SearchRepository {
           'Steep learning curve for casual enthusiasts'
         ],
         similarApplications: [
-          AppAlternative(name: 'Affinity Photo', category: 'Graphic Design', url: 'https://affinity.serif.com/photo/', pricing: '$69.99 One-time purchase', isOpenSource: false),
+          AppAlternative(name: 'Affinity Photo', category: 'Graphic Design', url: 'https://affinity.serif.com/photo/', pricing: '\$69.99 One-time purchase', isOpenSource: false),
           AppAlternative(name: 'Canva', category: 'Graphic Design', url: 'https://canva.com', pricing: 'Free and Premium options', isOpenSource: false),
         ],
         openSourceAlternatives: [
@@ -248,7 +248,7 @@ class SearchRepositoryImpl implements SearchRepository {
           'Heavily configured environments consume more RAM'
         ],
         similarApplications: [
-          AppAlternative(name: 'Sublime Text', category: 'Code Editor', url: 'https://www.sublimetext.com', pricing: '$99 license', isOpenSource: false),
+          AppAlternative(name: 'Sublime Text', category: 'Code Editor', url: 'https://www.sublimetext.com', pricing: '\$99 license', isOpenSource: false),
           AppAlternative(name: 'JetBrains IntelliJ', category: 'Full IDE', url: 'https://www.jetbrains.com/idea/', pricing: 'Subscription/Free Community', isOpenSource: false),
         ],
         openSourceAlternatives: [
@@ -266,7 +266,7 @@ class SearchRepositoryImpl implements SearchRepository {
         officialWebsite: 'https://www.canva.com',
         supportedPlatforms: ['Web', 'Android', 'iOS', 'Windows', 'macOS'],
         officialDownloadLink: 'https://www.canva.com/download/',
-        pricing: 'Free tier / Pro at $12.99/mo',
+        pricing: 'Free tier / Pro at \$12.99/mo',
         hasFreeVersion: true,
         hasOfficialTrial: true,
         systemRequirements: 'Any modern browser with stable internet',
