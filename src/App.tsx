@@ -208,6 +208,21 @@ export default function App() {
       setSearchHistory(prev => [queryToSearch, ...prev.slice(0, 5)]);
     }
 
+    const qLower = queryToSearch.toLowerCase().trim();
+    const isPresetApp = qLower === 'photoshop' || 
+                         qLower === 'adobe photoshop' ||
+                         qLower === 'vs code' || 
+                         qLower === 'visual studio code' || 
+                         qLower === 'canva';
+
+    if (isPresetApp) {
+      setTimeout(() => {
+        setSearchResult(generateSimulatorData(queryToSearch));
+        setIsSearching(false);
+      }, 300);
+      return;
+    }
+
     try {
       // Simulate real call via backend prompt processing
       const response = await fetch('/api/chat', {

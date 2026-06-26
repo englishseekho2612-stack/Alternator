@@ -159,17 +159,25 @@ Do not make up fake features. Emphasize that in this Phase 1, we have built the 
 
     res.json({ success: true, message: response.text });
   } catch (error: any) {
-    console.error("Gemini Error:", error);
-    
     // Check if error is quota-related (429 / RESOURCE_EXHAUSTED) or rate limited
     const errorStr = JSON.stringify(error) || "";
-    const errorMsg = error.message || "";
+    const errorMsg = error?.message || "";
+    const errorStatus = error?.status || "";
+    const errorCode = error?.code || "";
     const isQuotaError = errorMsg.includes("429") || 
                          errorMsg.includes("RESOURCE_EXHAUSTED") || 
                          errorMsg.toLowerCase().includes("quota") ||
+                         errorStatus.toString().includes("429") ||
+                         errorCode.toString().includes("429") ||
                          errorStr.includes("429") ||
                          errorStr.includes("RESOURCE_EXHAUSTED");
 
+    if (isQuotaError) {
+      console.log("[Gemini API Info] Quota limits reached or rate-limited (429/RESOURCE_EXHAUSTED). Gracefully engaging local/simulated fallback responses.");
+    } else {
+      console.error("Gemini Error:", error);
+    }
+    
     const lastUserMessage = req.body.messages?.[req.body.messages.length - 1]?.content || "";
     const isJsonRequest = lastUserMessage.toLowerCase().includes("json");
 
