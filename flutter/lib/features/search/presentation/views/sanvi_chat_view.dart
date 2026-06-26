@@ -66,7 +66,7 @@ class _SanviChatViewState extends ConsumerState<SanviChatView> {
           // Quick hint card
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            color: theme.colorScheme.primary.withOpacity(0.05),
+            color: theme.colorScheme.primary.withValues(alpha: 0.05),
             child: const Row(
               children: [
                 Icon(Icons.tips_and_updates_outlined, size: 18, color: Colors.amber),
@@ -126,7 +126,7 @@ class _SanviChatViewState extends ConsumerState<SanviChatView> {
             bottomLeft: Radius.circular(isUser ? 16 : 0),
             bottomRight: Radius.circular(isUser ? 0 : 16),
           ),
-          border: isUser ? null : Border.all(color: Colors.grey.withOpacity(0.2)),
+          border: isUser ? null : Border.all(color: Colors.grey.withValues(alpha: 0.2)),
         ),
         child: Text(
           content,
@@ -145,7 +145,7 @@ class _SanviChatViewState extends ConsumerState<SanviChatView> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: theme.scaffoldBackgroundColor,
-        border: Border(top: BorderSide(color: Colors.grey.withOpacity(0.2))),
+        border: Border(top: BorderSide(color: Colors.grey.withValues(alpha: 0.2))),
       ),
       child: Row(
         children: [
@@ -155,7 +155,7 @@ class _SanviChatViewState extends ConsumerState<SanviChatView> {
               decoration: BoxDecoration(
                 color: theme.cardTheme.color ?? Colors.white,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.3)),
               ),
               child: TextField(
                 controller: _messageController,

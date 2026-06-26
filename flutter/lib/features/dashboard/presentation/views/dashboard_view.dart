@@ -115,7 +115,7 @@ class _DashboardViewState extends State<DashboardView> {
                 // Welcome Header section with Profile card
                 Card(
                   elevation: 0,
-                  color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.4),
+                  color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.4),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -135,7 +135,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 welcomeText,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.7),
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
                                 ),
                               ),
                               Text(
@@ -423,7 +423,7 @@ class _DashboardViewState extends State<DashboardView> {
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: iconColor.withOpacity(0.8),
+                      color: iconColor.withValues(alpha: 0.8),
                     ),
                   ),
                 ],

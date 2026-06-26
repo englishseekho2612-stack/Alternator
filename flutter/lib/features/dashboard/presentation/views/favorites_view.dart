@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../domain/models/favorite_item.dart';
 import '../controllers/dashboard_controller.dart';
 
 class FavoritesView extends StatefulWidget {
@@ -27,7 +26,7 @@ class _FavoritesViewState extends State<FavoritesView> {
       listenable: widget.controller,
       builder: (context, _) {
         // Apply search query, filtering and sorting
-        List<FavoriteItem> filteredList = widget.controller.favorites.where((item) {
+        final filteredList = widget.controller.favorites.where((item) {
           final matchesSearch = item.appName.toLowerCase().contains(_searchQuery.toLowerCase()) ||
               item.originalApp.toLowerCase().contains(_searchQuery.toLowerCase()) ||
               item.category.toLowerCase().contains(_searchQuery.toLowerCase());

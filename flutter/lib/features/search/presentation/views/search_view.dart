@@ -124,7 +124,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.red.withOpacity(0.1),
+        color: Colors.red.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -146,7 +146,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.layers_outlined, size: 80, color: theme.colorScheme.secondary.withOpacity(0.5)),
+        Icon(Icons.layers_outlined, size: 80, color: theme.colorScheme.secondary.withValues(alpha: 0.5)),
         const SizedBox(height: 16),
         Text(
           'Find Verified Software Alternatives',
@@ -386,7 +386,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1),
+                      color: Colors.green.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: const Text('OSI Approved', style: TextStyle(color: Colors.green, fontSize: 10, fontWeight: FontWeight.bold)),

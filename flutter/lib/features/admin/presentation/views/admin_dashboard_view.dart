@@ -247,7 +247,7 @@ class _AdminDashboardViewState extends State<AdminDashboardView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(val, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
-                Text(title, style: TextStyle(fontSize: 11, color: color.withOpacity(0.8))),
+                Text(title, style: TextStyle(fontSize: 11, color: color.withValues(alpha: 0.8))),
               ],
             ),
           ],
