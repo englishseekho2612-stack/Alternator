@@ -1,0 +1,6 @@
+{
+  "name": "Apps Alternator",
+  "description": "Modern multi-platform application alternative finder with Sanvi AI Assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

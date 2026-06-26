@@ -1,0 +1,8 @@
+# Apps Alternator Android Keystore Signing Configuration Template
+# DO NOT COMMIT actual keys or passwords to git! Use local system paths only.
+# Rename this file to 'key.properties' locally in your private workstation workspace.
+
+keyAlias=appsalternator_alias
+keyPassword=REPLACE_WITH_SECURE_KEY_PASSWORD
+storePassword=REPLACE_WITH_SECURE_STORE_PASSWORD
+storeFile=../appsalternator_keystore.jks

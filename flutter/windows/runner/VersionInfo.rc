@@ -1,0 +1,41 @@
+// Version Information Resource for Apps Alternator Windows Desktop Executive
+// UTF-8 code page encoding
+#pragma code_page(65001)
+
+#include <windows.h>
+
+#define VERSION_AS_NUMBER 1,0,0,1
+#define VERSION_AS_STRING "1.0.0.1"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION VERSION_AS_NUMBER
+PRODUCTVERSION VERSION_AS_NUMBER
+FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+FILEFLAGS 0x1L
+#else
+FILEFLAGS 0x0L
+#endif
+FILEOS 0x4L
+FILETYPE 0x1L
+FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Apps Alternator Team"
+            VALUE "FileDescription", "Apps Alternator - Find beautiful open source alternatives to costly proprietary tools."
+            VALUE "FileVersion", VERSION_AS_STRING
+            VALUE "InternalName", "apps_alternator"
+            VALUE "LegalCopyright", "Copyright (C) 2026 Apps Alternator. All rights reserved."
+            VALUE "OriginalFilename", "apps_alternator.exe"
+            VALUE "ProductName", "Apps Alternator"
+            VALUE "ProductVersion", VERSION_AS_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END

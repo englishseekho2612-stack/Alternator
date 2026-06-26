@@ -1,0 +1,45 @@
+name: apps_alternator
+description: Apps Alternator - Modern, Clean, and Multi-platform Application Alternative Finder.
+version: 1.0.0+1
+
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Navigation & Routing
+  go_router: ^13.0.0
+
+  # State Management & Dependency Injection
+  flutter_riverpod: ^2.5.0
+  get_it: ^7.6.0
+
+  # AI & GenAI
+  google_generative_ai: ^0.4.0
+
+  # Utility & Configuration
+  logger: ^2.2.0
+  shared_preferences: ^2.2.0
+  intl: ^0.19.0
+  path_provider: ^2.1.0
+
+  # UI & Responsive Layouts
+  responsive_builder: ^0.4.3
+  flutter_svg: ^2.0.10+1
+  google_fonts: ^6.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/translations/
