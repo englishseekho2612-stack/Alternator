@@ -66,9 +66,6 @@ workflows:
       email:
         recipients:
           - englishseekho2612@gmail.com
-        notify:
-          on_success: true
-          on_failure: true
 
   web-workflow:
     name: Web Production Build
@@ -106,9 +103,6 @@ workflows:
       email:
         recipients:
           - englishseekho2612@gmail.com
-        notify:
-          on_success: true
-          on_failure: true
 
   windows-workflow:
     name: Windows Desktop Build
@@ -146,6 +140,3 @@ workflows:
       email:
         recipients:
           - englishseekho2612@gmail.com
-        notify:
-          on_success: true
-          on_failure: true
