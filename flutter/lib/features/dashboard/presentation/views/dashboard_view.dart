@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../domain/models/user_profile.dart';
 import '../controllers/dashboard_controller.dart';
 import 'profile_settings_view.dart';
 import 'favorites_view.dart';

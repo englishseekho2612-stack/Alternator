@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../domain/models/user_profile.dart';
 import '../controllers/dashboard_controller.dart';
 
 class ProfileSettingsView extends StatefulWidget {
@@ -111,7 +110,7 @@ class _ProfileSettingsViewState extends State<ProfileSettingsView> {
                 ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
-                  value: profile.preferredLanguage,
+                  initialValue: profile.preferredLanguage,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                   ),
