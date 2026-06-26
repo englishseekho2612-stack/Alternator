@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../domain/models/ai_config.dart';
+import '../../domain/models/ai_config.dart';
 import '../controllers/admin_controller.dart';
 
 class AiManagementView extends StatefulWidget {
@@ -121,7 +121,7 @@ class _AiManagementViewState extends State<AiManagementView> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
-                    backgroundColor: Colors.sky.shade800,
+                    backgroundColor: Colors.blue.shade800,
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () async {

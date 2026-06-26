@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../domain/models/cms_content.dart';
+import '../../domain/models/cms_content.dart';
 import '../controllers/admin_controller.dart';
 
 class CmsManagementView extends StatefulWidget {
