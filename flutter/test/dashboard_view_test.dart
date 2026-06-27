@@ -30,6 +30,7 @@ class MockDashboardRepository implements DashboardRepository {
 
   @override
   Future<UserProfile> getUserProfile(String uid) async {
+    await Future.delayed(const Duration(milliseconds: 10));
     return mockProfile!;
   }
 
