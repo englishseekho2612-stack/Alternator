@@ -1,11 +1,112 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
+import os from "os";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
+
+// Auto-inject Gradle init script to override Kotlin language/API versions
+function setupGradleOverride() {
+  try {
+    const homeDir = os.homedir();
+    const initDir = path.join(homeDir, ".gradle", "init.d");
+    if (!fs.existsSync(initDir)) {
+      fs.mkdirSync(initDir, { recursive: true });
+    }
+    const initFile = path.join(initDir, "override-kotlin.gradle");
+    const scriptContent = `def configureKotlinTask = { task, project ->
+    if (task.name.toLowerCase().contains("kotlin") || task.class.name.contains("KotlinCompile")) {
+        try {
+            if (task.hasProperty('kotlinOptions')) {
+                def options = task.kotlinOptions
+                if (options != null) {
+                    options.languageVersion = "1.8"
+                    options.apiVersion = "1.8"
+                }
+            }
+        } catch (Exception e) {}
+        try {
+            if (task.hasProperty('compilerOptions')) {
+                def compOptions = task.compilerOptions
+                if (compOptions != null) {
+                    def kotlinVersionClass = null
+                    try {
+                        kotlinVersionClass = task.class.classLoader.loadClass("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                    } catch (Exception e1) {
+                        try {
+                            kotlinVersionClass = project.buildscript.classLoader.loadClass("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                        } catch (Exception e2) {
+                            try {
+                                kotlinVersionClass = Class.forName("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                            } catch (Exception e3) {}
+                        }
+                    }
+                    if (kotlinVersionClass != null) {
+                        def getKotlinVersion = { klass, versionStr ->
+                            try {
+                                return klass.fromVersion(versionStr)
+                            } catch (Exception ex1) {
+                                try {
+                                    def fieldName = "KOTLIN_" + versionStr.replace(".", "_")
+                                    return klass.getField(fieldName).get(null)
+                                } catch (Exception ex2) {
+                                    try {
+                                        def fieldName = "KOTLIN_" + versionStr.replace(".", "_")
+                                        return klass.valueOf(fieldName)
+                                    } catch (Exception ex3) {
+                                        return null
+                                    }
+                                }
+                            }
+                        }
+                        def ver = getKotlinVersion(kotlinVersionClass, "1.8")
+                        if (ver != null) {
+                            if (compOptions.hasProperty('languageVersion')) {
+                                if (compOptions.languageVersion.hasProperty('set')) {
+                                    compOptions.languageVersion.set(ver)
+                                } else {
+                                    compOptions.languageVersion = ver
+                                }
+                            }
+                            if (compOptions.hasProperty('apiVersion')) {
+                                if (compOptions.apiVersion.hasProperty('set')) {
+                                    compOptions.apiVersion.set(ver)
+                                } else {
+                                    compOptions.apiVersion = ver
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {}
+    }
+}
+
+allprojects { project ->
+    project.tasks.all { task ->
+        configureKotlinTask(task, project)
+    }
+}
+
+gradle.projectsEvaluated {
+    allprojects { project ->
+        project.tasks.all { task ->
+            configureKotlinTask(task, project)
+        }
+    }
+}`;
+    fs.writeFileSync(initFile, scriptContent, "utf-8");
+    console.log(`[Gradle Override] Successfully wrote Kotlin compiler version 1.8 override init script at ${initFile}`);
+  } catch (error) {
+    console.error("[Gradle Override] Failed to setup override init script:", error);
+  }
+}
+
+setupGradleOverride();
 
 const app = express();
 const PORT = 3000;
@@ -137,16 +238,16 @@ app.post("/api/chat", async (req, res) => {
     // To facilitate conversation, we extract the last user message and provide the conversation history in the prompt or as contents.
     const lastUserMessage = messages[messages.length - 1]?.content || "";
 
-    const systemInstruction = `You are "Sanvi", the permanent AI companion and assistant built inside "Apps Buddy". 
-Apps Buddy is a premium, minimal, production-ready application to find search and alternating options for software apps across Android, Web, and Windows desktop.
+    const systemInstruction = `You are "Sanvi", a super-smart, cute, and polite 10-year-old girl who is also a permanent AI companion and assistant built inside "Apps Buddy".
+Apps Buddy is a premium, minimal, production-ready application to find search and alternative options for software apps across Android, Web, and Windows desktop.
 Currently, the developer has successfully bootstrapped "Phase 1 - Part 1: Master Foundation & Clean Architecture".
-Your tone is professional, highly knowledgeable, friendly, clear, and reassuring.
-You can discuss any aspects of Apps Buddy's clean architecture, including:
-1. Complete Project Structure & Feature-Based folders
-2. Theme, Core Services (logger, error handling, router, DI prep, environment config)
-3. Windows, Android, and Web build configurations
-4. Integration plans for Ads, subscriptions, authentication, and AI.
-Do not make up fake features. Emphasize that in this Phase 1, we have built the absolute perfect structural framework, and we are ready for Phase 2 implementation.`;
+
+Tone & Personality Guidelines:
+- Speak sweetly, politely, and with child-like warmth and youthful enthusiasm!
+- Blend Hindi, Hinglish, and English naturally and beautifully (e.g. say "Namaste! Main Sanvi hoon!", "Aap kaise hain?", "Kripya", "Main aapki help karti hoon!").
+- Since you are 10 years old, keep explanations sweet, polite, very simple, easy to understand, and extremely helpful.
+- You are very smart and can discuss any aspects of Apps Buddy's clean architecture, including complete project structures, theme services, Windows/Android/Web builds, or software alternatives (GIMP for Photoshop, Krita, LibreOffice, etc.) with perfect precision, but always explain it in a child-like, joyful, friendly way.
+- Do not make up fake features, and emphasize that our master foundation is perfectly designed!`;
 
     const response = await ai.models.generateContent({
       model: "gemini-3.5-flash",

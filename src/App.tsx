@@ -25,7 +25,9 @@ import {
   Copy,
   Info,
   BadgeAlert,
-  Play
+  Play,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 
 interface FileNode {
@@ -38,6 +40,10 @@ interface FileNode {
 export default function App() {
   // Navigation & Active tab state of the mock simulator
   const [activeTab, setActiveTab] = useState<'search' | 'chat' | 'premium' | 'dashboard' | 'admin'>('dashboard');
+  
+  // Voice Synthesis state for Sanvi (10yo girl voice)
+  const [isVoiceMuted, setIsVoiceMuted] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState<string | null>(null);
   
   // Phase 4 User Profile & Settings State
   const [userDisplayName, setUserDisplayName] = useState('Amrit Kumar');
@@ -421,6 +427,75 @@ export default function App() {
     }
   };
 
+  // Voice Synthesis function for Sanvi (10yo girl voice)
+  const speakText = (text: string) => {
+    if (isVoiceMuted) return;
+    
+    // Stop any ongoing speech
+    window.speechSynthesis.cancel();
+
+    // Clean text: strip emojis, markdown tags, backticks, asterisks, URLs
+    const cleanText = text
+      .replace(/https?:\/\/\S+/g, '') // remove URLs
+      .replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, '') // remove emojis
+      .replace(/[*#_`~:()]/g, ' ') // remove md formatting and special characters
+      .replace(/\s+/g, ' ') // normalize spaces
+      .trim();
+
+    if (!cleanText) return;
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    
+    // Configure kid-like pitch & rate
+    utterance.pitch = 1.45; // Sweet higher pitch for 10yo girl voice
+    utterance.rate = 0.95;  // Friendly, expressive conversational speed
+    utterance.volume = 1.0;
+
+    // Detect language context
+    const hasHindi = /[\u0900-\u097F]/.test(text) || 
+                     /batao|kijiye|hai|hoon|naam|namaste|karan|gussa|shanti|kripya/i.test(text);
+    
+    const voices = window.speechSynthesis.getVoices();
+    let selectedVoice = null;
+    
+    if (hasHindi) {
+      selectedVoice = voices.find(v => v.lang.startsWith('hi'));
+    }
+    
+    // Fallback search patterns for female/high quality voices
+    if (!selectedVoice) {
+      selectedVoice = voices.find(v => v.lang.startsWith('en-IN') && v.name.toLowerCase().includes('female')) ||
+                      voices.find(v => v.lang.startsWith('en-IN')) ||
+                      voices.find(v => v.lang.startsWith('hi')) ||
+                      voices.find(v => v.name.toLowerCase().includes('google') && v.lang.startsWith('en')) ||
+                      voices.find(v => v.name.toLowerCase().includes('female')) ||
+                      voices[0];
+    }
+    
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
+    }
+
+    utterance.onstart = () => {
+      setIsSpeaking(text);
+    };
+
+    utterance.onend = () => {
+      setIsSpeaking(null);
+    };
+
+    utterance.onerror = () => {
+      setIsSpeaking(null);
+    };
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const stopSpeaking = () => {
+    window.speechSynthesis.cancel();
+    setIsSpeaking(null);
+  };
+
   // 3. Conversational chatbot with Sanvi
   const handleChatSubmit = async (e: any) => {
     e.preventDefault();
@@ -445,11 +520,17 @@ export default function App() {
       const data = await response.json();
       if (data.success) {
         setChatMessages(prev => [...prev, { sender: 'sanvi', content: data.message, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+        // Automatically speak Sanvi's response
+        speakText(data.message);
       } else {
-        setChatMessages(prev => [...prev, { sender: 'sanvi', content: 'Khed vyakt karti hoon, abhi mere servers thode busy hain. Kripya thodi der baad prayaas karein!', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+        const fallbackMsg = 'Khed vyakt karti hoon, abhi mere servers thode busy hain. Kripya thodi der baad prayaas karein!';
+        setChatMessages(prev => [...prev, { sender: 'sanvi', content: fallbackMsg, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+        speakText(fallbackMsg);
       }
     } catch (err) {
-      setChatMessages(prev => [...prev, { sender: 'sanvi', content: 'Connection timed out. Main simulator mode mein chal rahi hoon!', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+      const errorMsg = 'Connection timed out. Main simulator mode mein chal rahi hoon!';
+      setChatMessages(prev => [...prev, { sender: 'sanvi', content: errorMsg, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+      speakText(errorMsg);
     } finally {
       setIsChatLoading(false);
     }
@@ -884,6 +965,38 @@ export default function App() {
                   {/* SANVI AI COMPANION CHAT TAB */}
                   {activeTab === 'chat' && (
                     <div className="flex-grow flex flex-col justify-between overflow-hidden">
+                      {/* Kid Voice Status & Controller Header */}
+                      <div className="bg-sky-500/10 border border-sky-500/25 rounded-xl p-2.5 mb-2.5 flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                          </span>
+                          <span className="text-[10px] font-bold text-sky-400">Sanvi Kid Voice Active (10yo Girl)</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          {isSpeaking && (
+                            <button 
+                              onClick={stopSpeaking}
+                              className="text-[9px] bg-rose-500/20 hover:bg-rose-500/35 text-rose-300 px-2 py-0.5 rounded-md font-semibold transition-colors"
+                            >
+                              Stop Audio
+                            </button>
+                          )}
+                          <button
+                            onClick={() => {
+                              setIsVoiceMuted(!isVoiceMuted);
+                              if (!isVoiceMuted) stopSpeaking();
+                              triggerToast(isVoiceMuted ? "Sanvi voice autoplay enabled!" : "Sanvi voice autoplay muted.");
+                            }}
+                            className={`p-1 rounded-md transition-colors ${isVoiceMuted ? 'text-slate-500 hover:text-slate-400 bg-slate-800' : 'text-sky-400 hover:text-sky-300 bg-sky-500/15'}`}
+                            title={isVoiceMuted ? "Enable Voice Autoplay" : "Mute Voice Autoplay"}
+                          >
+                            {isVoiceMuted ? <VolumeX size={12} /> : <Volume2 size={12} />}
+                          </button>
+                        </div>
+                      </div>
+
                       {/* Messages scrollarea */}
                       <div className="flex-grow flex flex-col gap-2.5 overflow-y-auto max-h-[300px] pr-1.5 mb-2.5 scrollbar-thin">
                         {chatMessages.map((msg, i) => (
@@ -891,13 +1004,34 @@ export default function App() {
                             key={i} 
                             className={`flex flex-col gap-1 max-w-[85%] ${msg.sender === 'user' ? 'self-end items-end' : 'self-start items-start'}`}
                           >
-                            <div className={`p-2.5 rounded-2xl text-[11px] leading-relaxed shadow ${
-                              msg.sender === 'user' 
-                                ? 'bg-sky-500 text-white rounded-tr-none' 
-                                : 'bg-slate-800 text-slate-200 rounded-tl-none border border-slate-750'
-                            }`}>
-                              {/* Standard rendering of chat */}
-                              <p className="whitespace-pre-line">{msg.content}</p>
+                            <div className="flex items-center gap-1.5 w-full">
+                              <div className={`p-2.5 rounded-2xl text-[11px] leading-relaxed shadow ${
+                                msg.sender === 'user' 
+                                  ? 'bg-sky-500 text-white rounded-tr-none' 
+                                  : 'bg-slate-800 text-slate-200 rounded-tl-none border border-slate-750'
+                              }`}>
+                                {/* Standard rendering of chat */}
+                                <p className="whitespace-pre-line">{msg.content}</p>
+                              </div>
+                              {msg.sender === 'sanvi' && (
+                                <button
+                                  onClick={() => {
+                                    if (isSpeaking === msg.content) {
+                                      stopSpeaking();
+                                    } else {
+                                      speakText(msg.content);
+                                    }
+                                  }}
+                                  className={`p-1.5 rounded-full border transition flex-shrink-0 ${
+                                    isSpeaking === msg.content 
+                                      ? 'bg-rose-500/20 border-rose-500/35 text-rose-400 animate-pulse' 
+                                      : 'bg-slate-850 border-slate-700/60 text-slate-400 hover:text-sky-400 hover:border-sky-500/35'
+                                  }`}
+                                  title="Listen to Sanvi"
+                                >
+                                  <Volume2 size={11} className={isSpeaking === msg.content ? "animate-pulse" : ""} />
+                                </button>
+                              )}
                             </div>
                             <span className="text-[8px] text-slate-500 px-1">{msg.time}</span>
                           </div>
