@@ -18,7 +18,7 @@ function setupGradleOverride() {
     }
     const initFile = path.join(initDir, "override-kotlin.gradle");
     const scriptContent = `def configureKotlinTask = { task, project ->
-    if (task.name.toLowerCase().contains("kotlin") || task.class.name.contains("KotlinCompile")) {
+    if (task.name.toLowerCase().contains("kotlin") || (task.class != null && task.class.name != null && task.class.name.contains("KotlinCompile"))) {
         try {
             if (task.hasProperty('kotlinOptions')) {
                 def options = task.kotlinOptions
@@ -97,6 +97,12 @@ gradle.projectsEvaluated {
         project.tasks.all { task ->
             configureKotlinTask(task, project)
         }
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    taskGraph.allTasks.each { task ->
+        configureKotlinTask(task, task.project)
     }
 }`;
     fs.writeFileSync(initFile, scriptContent, "utf-8");

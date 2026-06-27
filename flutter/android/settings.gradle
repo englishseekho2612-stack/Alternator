@@ -26,74 +26,84 @@ plugins {
 include ':app'
 
 // Intercept early project evaluation to override legacy Kotlin language settings (languageVersion 1.4)
-gradle.beforeProject { proj ->
-    proj.tasks.all { task ->
-        if (task.name.toLowerCase().contains("kotlin") || task.class.name.contains("KotlinCompile")) {
-            try {
-                if (task.hasProperty('kotlinOptions')) {
-                    def options = task.kotlinOptions
-                    if (options != null) {
-                        options.languageVersion = "1.8"
-                        options.apiVersion = "1.8"
-                    }
+def applyKotlinOverride = { task, proj ->
+    if (task.name.toLowerCase().contains("kotlin") || (task.class != null && task.class.name != null && task.class.name.contains("KotlinCompile"))) {
+        try {
+            if (task.hasProperty('kotlinOptions')) {
+                def options = task.kotlinOptions
+                if (options != null) {
+                    options.languageVersion = "1.8"
+                    options.apiVersion = "1.8"
                 }
-            } catch (Exception e) {}
-            try {
-                if (task.hasProperty('compilerOptions')) {
-                    def compOptions = task.compilerOptions
-                    if (compOptions != null) {
-                        def kotlinVersionClass = null
+            }
+        } catch (Exception e) {}
+        try {
+            if (task.hasProperty('compilerOptions')) {
+                def compOptions = task.compilerOptions
+                if (compOptions != null) {
+                    def kotlinVersionClass = null
+                    try {
+                        kotlinVersionClass = task.class.classLoader.loadClass("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                    } catch (Exception e1) {
                         try {
-                            kotlinVersionClass = task.class.classLoader.loadClass("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
-                        } catch (Exception e1) {
+                            kotlinVersionClass = proj.buildscript.classLoader.loadClass("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                        } catch (Exception e2) {
                             try {
-                                kotlinVersionClass = proj.buildscript.classLoader.loadClass("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
-                            } catch (Exception e2) {
-                                try {
-                                    kotlinVersionClass = Class.forName("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
-                                } catch (Exception e3) {}
-                            }
+                                kotlinVersionClass = Class.forName("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                            } catch (Exception e3) {}
                         }
-                        if (kotlinVersionClass != null) {
-                            def getKotlinVersion = { klass, versionStr ->
+                    }
+                    if (kotlinVersionClass != null) {
+                        def getKotlinVersion = { klass, versionStr ->
+                            try {
+                                return klass.fromVersion(versionStr)
+                            } catch (Exception ex1) {
                                 try {
-                                    return klass.fromVersion(versionStr)
-                                } catch (Exception ex1) {
+                                    def fieldName = "KOTLIN_" + versionStr.replace(".", "_")
+                                    return klass.getField(fieldName).get(null)
+                                } catch (Exception ex2) {
                                     try {
                                         def fieldName = "KOTLIN_" + versionStr.replace(".", "_")
-                                        return klass.getField(fieldName).get(null)
-                                    } catch (Exception ex2) {
-                                        try {
-                                            def fieldName = "KOTLIN_" + versionStr.replace(".", "_")
-                                            return klass.valueOf(fieldName)
-                                        } catch (Exception ex3) {
-                                            return null
-                                        }
+                                        return klass.valueOf(fieldName)
+                                    } catch (Exception ex3) {
+                                        return null
                                     }
                                 }
                             }
-                            def ver = getKotlinVersion(kotlinVersionClass, "1.8")
-                            if (ver != null) {
-                                if (compOptions.hasProperty('languageVersion')) {
-                                    if (compOptions.languageVersion.hasProperty('set')) {
-                                        compOptions.languageVersion.set(ver)
-                                    } else {
-                                        compOptions.languageVersion = ver
-                                    }
+                        }
+                        def ver = getKotlinVersion(kotlinVersionClass, "1.8")
+                        if (ver != null) {
+                            if (compOptions.hasProperty('languageVersion')) {
+                                if (compOptions.languageVersion.hasProperty('set')) {
+                                    compOptions.languageVersion.set(ver)
+                                } else {
+                                    compOptions.languageVersion = ver
                                 }
-                                if (compOptions.hasProperty('apiVersion')) {
-                                    if (compOptions.apiVersion.hasProperty('set')) {
-                                        compOptions.apiVersion.set(ver)
-                                    } else {
-                                        compOptions.apiVersion = ver
-                                    }
+                            }
+                            if (compOptions.hasProperty('apiVersion')) {
+                                if (compOptions.apiVersion.hasProperty('set')) {
+                                    compOptions.apiVersion.set(ver)
+                                } else {
+                                    compOptions.apiVersion = ver
                                 }
                             }
                         }
                     }
                 }
-            } catch (Exception e) {}
-        }
+            }
+        } catch (Exception e) {}
+    }
+}
+
+gradle.beforeProject { proj ->
+    proj.tasks.all { task ->
+        applyKotlinOverride(task, proj)
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    taskGraph.allTasks.each { task ->
+        applyKotlinOverride(task, task.project)
     }
 }
 

@@ -14,7 +14,7 @@ allprojects {
 
     // Override outdated Kotlin language version settings of legacy dependencies to 1.8
     def applyKotlinOverride = { task, proj ->
-        if (task.name.toLowerCase().contains("kotlin") || task.class.name.contains("KotlinCompile")) {
+        if (task.name.toLowerCase().contains("kotlin") || (task.class != null && task.class.name != null && task.class.name.contains("KotlinCompile"))) {
             try {
                 if (task.hasProperty('kotlinOptions')) {
                     def options = task.kotlinOptions
@@ -100,6 +100,11 @@ allprojects {
             proj.tasks.each { task ->
                 applyKotlinOverride(task, proj)
             }
+        }
+    }
+    gradle.taskGraph.whenReady { taskGraph ->
+        taskGraph.allTasks.each { task ->
+            applyKotlinOverride(task, task.project)
         }
     }
 }
