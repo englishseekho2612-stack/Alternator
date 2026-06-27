@@ -41,6 +41,108 @@ workflows:
           if [ -n "$PLAY_STORE_KEYSTORE_BASE64" ]; then
             echo $PLAY_STORE_KEYSTORE_BASE64 | base64 --decode > android/appsalternator_keystore.jks
           fi
+          # Ensure gradlew is executable and update Gradle wrapper to 7.6.3
+          chmod +x android/gradlew
+          cd android && ./gradlew wrapper --gradle-version 7.6.3 && cd ..
+          # Create global Gradle init script to override Kotlin language/API versions
+          mkdir -p ~/.gradle/init.d
+          cat << 'EOF' > ~/.gradle/init.d/override-kotlin.gradle
+def configureKotlinTask = { task, project ->
+    if (task.name.toLowerCase().contains("kotlin") || task.class.name.contains("KotlinCompile")) {
+        println "[KOTLIN-OVERRIDE] Overriding task: ${task.path} (${task.class.name}) in project: ${project?.name}"
+        try {
+            if (task.hasProperty('kotlinOptions')) {
+                def options = task.kotlinOptions
+                if (options != null) {
+                    options.languageVersion = "1.8"
+                    options.apiVersion = "1.8"
+                    println "[KOTLIN-OVERRIDE] Successfully set languageVersion & apiVersion to 1.8 in kotlinOptions"
+                }
+            }
+        } catch (Exception e) {
+            println "[KOTLIN-OVERRIDE] Failed to set kotlinOptions: ${e.message}"
+        }
+        try {
+            if (task.hasProperty('compilerOptions')) {
+                def compOptions = task.compilerOptions
+                if (compOptions != null) {
+                    def kotlinVersionClass = null
+                    try {
+                        kotlinVersionClass = task.class.classLoader.loadClass("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                    } catch (Exception e1) {
+                        try {
+                            kotlinVersionClass = project?.buildscript?.classLoader?.loadClass("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                        } catch (Exception e2) {
+                            try {
+                                kotlinVersionClass = Class.forName("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                            } catch (Exception e3) {}
+                        }
+                    }
+                    if (kotlinVersionClass != null) {
+                        def getKotlinVersion = { klass, versionStr ->
+                            try {
+                                return klass.fromVersion(versionStr)
+                            } catch (Exception ex1) {
+                                try {
+                                    def fieldName = "KOTLIN_" + versionStr.replace(".", "_")
+                                    return klass.getField(fieldName).get(null)
+                                } catch (Exception ex2) {
+                                    try {
+                                        def fieldName = "KOTLIN_" + versionStr.replace(".", "_")
+                                        return klass.valueOf(fieldName)
+                                    } catch (Exception ex3) {
+                                        return null
+                                    }
+                                }
+                            }
+                        }
+                        def ver = getKotlinVersion(kotlinVersionClass, "1.8")
+                        if (ver != null) {
+                            if (compOptions.hasProperty('languageVersion')) {
+                                if (compOptions.languageVersion.hasProperty('set')) {
+                                    compOptions.languageVersion.set(ver)
+                                } else {
+                                    compOptions.languageVersion = ver
+                                }
+                            }
+                            if (compOptions.hasProperty('apiVersion')) {
+                                if (compOptions.apiVersion.hasProperty('set')) {
+                                    compOptions.apiVersion.set(ver)
+                                } else {
+                                    compOptions.apiVersion = ver
+                                }
+                            }
+                            println "[KOTLIN-OVERRIDE] Successfully set compilerOptions to 1.8"
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            println "[KOTLIN-OVERRIDE] Failed to set compilerOptions: ${e.message}"
+        }
+    }
+}
+
+allprojects { project ->
+    project.tasks.all { task ->
+        configureKotlinTask(task, project)
+    }
+}
+
+gradle.projectsEvaluated {
+    allprojects { project ->
+        project.tasks.all { task ->
+            configureKotlinTask(task, project)
+        }
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    taskGraph.allTasks.each { task ->
+        configureKotlinTask(task, task.project)
+    }
+}
+EOF
       - name: Get Flutter Packages
         script: |
           flutter packages pub get
