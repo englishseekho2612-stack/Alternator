@@ -214,7 +214,7 @@ class MockHttpHeaders implements HttpHeaders {
   bool persistentConnection = false;
 
   @override
-  int port = 0;
+  int? port;
 
   @override
   dynamic noSuchMethod(Invocation invocation) {
