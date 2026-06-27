@@ -151,6 +151,15 @@ class MockHttpOverrides extends HttpOverrides {
 
 class MockHttpClient implements HttpClient {
   @override
+  bool autoUncompress = true;
+
+  @override
+  Duration? connectionTimeout;
+
+  @override
+  String? userAgent;
+
+  @override
   Future<HttpClientRequest> openUrl(String method, Uri url) async {
     return MockHttpClientRequest();
   }
@@ -169,6 +178,21 @@ class MockHttpClientRequest implements HttpClientRequest {
   final HttpHeaders headers = MockHttpHeaders();
 
   @override
+  bool persistentConnection = false;
+
+  @override
+  bool followRedirects = false;
+
+  @override
+  int maxRedirects = 0;
+
+  @override
+  int contentLength = 0;
+
+  @override
+  bool bufferOutput = false;
+
+  @override
   Future<HttpClientResponse> close() async {
     return MockHttpClientResponse();
   }
@@ -183,6 +207,15 @@ class MockHttpClientRequest implements HttpClientRequest {
 }
 
 class MockHttpHeaders implements HttpHeaders {
+  @override
+  bool chunkedTransferEncoding = false;
+
+  @override
+  bool persistentConnection = false;
+
+  @override
+  int port = 0;
+
   @override
   dynamic noSuchMethod(Invocation invocation) {
     return null;
@@ -230,6 +263,12 @@ class MockHttpClientResponse extends Stream<List<int>> implements HttpClientResp
 
   @override
   HttpHeaders get headers => MockHttpHeaders();
+
+  @override
+  bool get persistentConnection => false;
+
+  @override
+  String get reasonPhrase => 'OK';
 
   @override
   dynamic noSuchMethod(Invocation invocation) {
