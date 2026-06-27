@@ -44,39 +44,71 @@ workflows:
           # Create global Gradle init script to override Kotlin language/API versions
           mkdir -p ~/.gradle/init.d
           cat << 'EOF' > ~/.gradle/init.d/override-kotlin.gradle
-def configureKotlinOptions(project) {
-    project.tasks.matching { it.class.name.contains("KotlinCompile") }.all { task ->
-        try {
-            if (task.hasProperty('kotlinOptions')) {
-                def options = task.kotlinOptions
-                if (options != null) {
-                    if (options.hasProperty('languageVersion')) {
-                        def langVer = options.languageVersion?.toString()
-                        if (langVer == "1.4" || langVer == "1.5" || langVer == "1.6" || langVer == "1.7") {
-                            options.languageVersion = "1.8"
-                        }
+allprojects { project ->
+    project.tasks.all { task ->
+        if (task.name.toLowerCase().contains("kotlin") || task.class.name.contains("KotlinCompile")) {
+            try {
+                if (task.hasProperty('kotlinOptions')) {
+                    def options = task.kotlinOptions
+                    if (options != null) {
+                        options.languageVersion = "1.8"
+                        options.apiVersion = "1.8"
                     }
-                    if (options.hasProperty('apiVersion')) {
-                        def apiVer = options.apiVersion?.toString()
-                        if (apiVer == "1.4" || apiVer == "1.5" || apiVer == "1.6" || apiVer == "1.7") {
-                            options.apiVersion = "1.8"
+                }
+            } catch (Exception e) {
+                // Ignore
+            }
+            try {
+                if (task.hasProperty('compilerOptions')) {
+                    def compOptions = task.compilerOptions
+                    if (compOptions != null) {
+                        if (compOptions.hasProperty('languageVersion') && compOptions.languageVersion.hasProperty('set')) {
+                            def kotlinVersionClass = Class.forName("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                            def ver1_8 = kotlinVersionClass.getField("KOTLIN_1_8").get(null)
+                            compOptions.languageVersion.set(ver1_8)
+                            compOptions.apiVersion.set(ver1_8)
                         }
                     }
                 }
+            } catch (Exception e) {
+                // Ignore
             }
-        } catch (Exception e) {
-            // Ignore
         }
     }
 }
 
-allprojects { project ->
-    configureKotlinOptions(project)
-}
-
 gradle.projectsEvaluated {
     allprojects { project ->
-        configureKotlinOptions(project)
+        project.tasks.all { task ->
+            if (task.name.toLowerCase().contains("kotlin") || task.class.name.contains("KotlinCompile")) {
+                try {
+                    if (task.hasProperty('kotlinOptions')) {
+                        def options = task.kotlinOptions
+                        if (options != null) {
+                            options.languageVersion = "1.8"
+                            options.apiVersion = "1.8"
+                        }
+                    }
+                } catch (Exception e) {
+                    // Ignore
+                }
+                try {
+                    if (task.hasProperty('compilerOptions')) {
+                        def compOptions = task.compilerOptions
+                        if (compOptions != null) {
+                            if (compOptions.hasProperty('languageVersion') && compOptions.languageVersion.hasProperty('set')) {
+                                def kotlinVersionClass = Class.forName("org.jetbrains.kotlin.gradle.dsl.KotlinVersion")
+                                def ver1_8 = kotlinVersionClass.getField("KOTLIN_1_8").get(null)
+                                compOptions.languageVersion.set(ver1_8)
+                                compOptions.apiVersion.set(ver1_8)
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    // Ignore
+                }
+            }
+        }
     }
 }
 EOF
