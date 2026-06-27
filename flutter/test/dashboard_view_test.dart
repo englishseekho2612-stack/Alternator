@@ -107,6 +107,9 @@ void main() {
         ),
       );
 
+      // Trigger post frame callback which sets isLoading to true
+      await tester.pump();
+
       // Verify that initially the loader runs
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
