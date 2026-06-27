@@ -226,10 +226,6 @@ class MockHttpClientResponse extends Stream<List<int>> implements HttpClientResp
   bool get isRedirect => false;
 
   @override
-  PersistentConnectionState get persistentConnectionState =>
-      PersistentConnectionState.persisted;
-
-  @override
   List<RedirectInfo> get redirects => [];
 
   @override
