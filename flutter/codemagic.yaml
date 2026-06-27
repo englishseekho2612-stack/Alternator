@@ -39,6 +39,8 @@ workflows:
           if [ -n "$PLAY_STORE_KEYSTORE_BASE64" ]; then
             echo $PLAY_STORE_KEYSTORE_BASE64 | base64 --decode > android/appsalternator_keystore.jks
           fi
+          # Generate Gradle Wrapper with compatible Gradle version (>= 7.6.3)
+          cd android && gradle wrapper --gradle-version 7.6.3 && cd ..
       - name: Get Flutter Packages
         script: |
           flutter packages pub get
